@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import FileContainer from '../Components/FileContainer';
+import AudioContainer from '../Components/AudioContainer';
+import ImageContainer from '../Components/ImageContainer';
+import OthersContainer from '../Components/OthersContainer';
+import VideoContainer from '../Components/VideoContainer';
 import './Home.css'
 
 const Home = () => {
 
   const [files, setFiles] = useState([]);
-  const [fileCategory, setFileCategory] = useState('image');
+  const [fileCategory, setFileCategory] = useState('');
 
   function getExtension(filename) {
     var parts = filename.split('.');
@@ -26,18 +29,30 @@ const Home = () => {
     return false;
   }
 
-  // function isVideo(filename) {
-  //   var ext = getExtension(filename);
-  //   switch (ext.toLowerCase()) {
-  //     case 'm4v':
-  //     case 'avi':
-  //     case 'mpg':
-  //     case 'mp4':
-  //       // etc
-  //       return true;
-  //   }
-  //   return false;
-  // }
+  function isVideo(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+      case 'm4v':
+      case 'avi':
+      case 'mpg':
+      case 'mp4':
+        return true;
+      default:
+    }
+    return false;
+  }
+
+  function isAudio(filename) {
+    var ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+      case 'mp3':
+      case 'wav':
+        return true;
+      default:
+    }
+    return false;
+  }
+
 
   const fetchAllFiles = async () => {
     const url = "http://127.0.0.1:8000/api/files/fetch"
@@ -78,7 +93,22 @@ const Home = () => {
             {files.map((file, index) => {
               if (fileCategory === 'image' && isImage(file.file)) {
                 return (
-                  <FileContainer file_name={file.name} file_image={file.image} main_file={file.file} key={index} />
+                  <ImageContainer image_name={file.name} image={file.image} image_file={file.file} key={index} />
+                )
+              }
+              else if(fileCategory === 'video' && isVideo(file.file)) {
+                return (
+                  <VideoContainer />
+                )
+              }
+              else if(fileCategory === 'audio' && isAudio(file.file)) {
+                return (
+                  <AudioContainer />
+                )
+              }
+              else if(fileCategory === 'pdf' && file.file.includes('.pdf')) {
+                return (
+                  <OthersContainer />
                 )
               }
             })

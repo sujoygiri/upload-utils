@@ -8,7 +8,7 @@ import './Home.css'
 const Home = () => {
 
   const [files, setFiles] = useState([]);
-  const [fileCategory, setFileCategory] = useState('');
+  const [fileCategory, setFileCategory] = useState('video');
 
   function getExtension(filename) {
     var parts = filename.split('.');
@@ -98,7 +98,7 @@ const Home = () => {
               }
               else if(fileCategory === 'video' && isVideo(file.file)) {
                 return (
-                  <VideoContainer />
+                  <VideoContainer video_name={file.name} video_thumbnail={file.image} video_file={file.file} key={index}/>
                 )
               }
               else if(fileCategory === 'audio' && isAudio(file.file)) {

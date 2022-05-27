@@ -1,0 +1,36 @@
+.home{
+    display: flex;
+}
+
+.main-menu{
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    border-right: 1px solid black;
+    align-items: center;
+    background-color: rgb(51, 50, 50);
+}
+
+.menu-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 10px;
+    width: 120px;
+    height: 45px;
+}
+
+.menu-item p{
+    margin: 0;
+    padding: 10px 10px 10px 10px;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.highlight{
+    background-color: rgb(42, 145, 145);
+    border-radius: 10px;
+}

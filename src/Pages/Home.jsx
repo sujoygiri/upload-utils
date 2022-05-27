@@ -1,58 +1,55 @@
 import { useEffect, useState } from 'react';
-import AudioContainer from '../Components/AudioContainer';
-import ImageContainer from '../Components/ImageContainer';
-import OthersContainer from '../Components/OthersContainer';
-import VideoContainer from '../Components/VideoContainer';
+import FilesContainer from '../Components/FilesContainer';
 import './Home.css'
 
 const Home = () => {
 
   const [files, setFiles] = useState([]);
-  const [fileCategory, setFileCategory] = useState('video');
+  const [innerText, setInnerText] = useState('Video');
+  const [className, setClassName] = useState('highlight');
 
   function getExtension(filename) {
-    var parts = filename.split('.');
+    const parts = filename.split('.');
     return parts[parts.length - 1];
   }
 
-  function isImage(filename) {
-    var ext = getExtension(filename);
-    switch (ext.toLowerCase()) {
-      case 'jpg':
-      case 'gif':
-      case 'bmp':
-      case 'png':
-        return true;
-      default:
-      //etc
-    }
-    return false;
-  }
-
   function isVideo(filename) {
-    var ext = getExtension(filename);
+    const ext = getExtension(filename);
     switch (ext.toLowerCase()) {
       case 'm4v':
       case 'avi':
       case 'mpg':
       case 'mp4':
         return true;
-      default:
+      default: return false
     }
-    return false;
+    
+  }
+
+  function isImage(filename) {
+    const ext = getExtension(filename);
+    switch (ext.toLowerCase()) {
+      case 'jpg':
+      case 'gif':
+      case 'bmp':
+      case 'png':
+        return true;
+      default: return false;
+      //etc
+    }
+    
   }
 
   function isAudio(filename) {
-    var ext = getExtension(filename);
+    const ext = getExtension(filename);
     switch (ext.toLowerCase()) {
       case 'mp3':
       case 'wav':
         return true;
-      default:
+      default: return false;
     }
-    return false;
+    
   }
-
 
   const fetchAllFiles = async () => {
     const url = "http://127.0.0.1:8000/api/files/fetch"
@@ -69,46 +66,72 @@ const Home = () => {
     console.log(data);
   }
 
-  const getValue = (e) => {
-    setFileCategory(e.target.value);
+  const highlightDiv = (e) => {
+    let value = e.currentTarget.innerText;
+    if (value === 'Video') {
+      setInnerText('Video');
+      setClassName('highlight')
+    }
+    else if (value === 'Audio') {
+      setInnerText('Audio');
+      setClassName('highlight')
+    }
+    else if (value === 'Image') {
+      setInnerText('Image');
+      setClassName('highlight')
+    }
+    else if (value === 'Other') {
+      setInnerText('Other');
+      setClassName('highlight')
+    }
   }
 
   useEffect(() => {
     fetchAllFiles();
-  }, [fileCategory])
+  }, [innerText])
 
   return (
     <>
       <div className="home">
-        <div className="dropdown-menu">
-          <select name="file" id="file-category" onChange={getValue}>
-            <option value="video">Video</option>
-            <option value="audio">Audio</option>
-            <option value="image">Image</option>
-            <option value="pdf">Pdf</option>
-          </select>
+        <div className="main-menu">
+          <div className={`menu-item ${innerText === 'Video' && className}`} onClick={highlightDiv}>
+            <img src={require('../Assets/video-play-button.png')} alt="video-play-button" height={25} width={25} />
+            <p>Video</p>
+          </div>
+          <div className={`menu-item ${innerText === 'Audio' && className}`} onClick={highlightDiv}>
+            <img src={require('../Assets/music.png')} alt="music-logo" height={25} width={25} />
+            <p>Audio</p>
+          </div>
+          <div className={`menu-item ${innerText === 'Image' && className}`} onClick={highlightDiv}>
+            <img src={require('../Assets/image.png')} alt="image-play-button" height={25} width={25} />
+            <p>Image</p>
+          </div>
+          <div className={`menu-item ${innerText === 'Other' && className}`} onClick={highlightDiv}>
+            <img src={require('../Assets/neon.png')} alt="logo-neon" height={25} width={25} />
+            <p>Other</p>
+          </div>
         </div>
         <div className="main-content">
           <div className="all-files">
             {files.map((file, index) => {
-              if (fileCategory === 'image' && isImage(file.file)) {
+              if(innerText === 'Other' && !isVideo(file.file) && !isImage(file.file) && !isAudio(file.file)) {
                 return (
-                  <ImageContainer image_name={file.name} image={file.image} image_file={file.file} key={index} />
+                  <FilesContainer file_path={file.file} file_type='other' key={index} />
                 )
               }
-              else if(fileCategory === 'video' && isVideo(file.file)) {
+              else if (isVideo(file.file) && innerText === 'Video') {
                 return (
-                  <VideoContainer video_name={file.name} video_thumbnail={file.image} video_file={file.file} key={index}/>
+                  <FilesContainer file_path={file.file} file_type='video' key={index} />
                 )
               }
-              else if(fileCategory === 'audio' && isAudio(file.file)) {
+              else if (isAudio(file.file) && innerText === 'Audio') {
                 return (
-                  <AudioContainer />
+                  <FilesContainer file_path={file.file} file_type='audio' key={index} />
                 )
               }
-              else if(fileCategory === 'pdf' && file.file.includes('.pdf')) {
+              else if (isImage(file.file) && innerText === 'Image') {
                 return (
-                  <OthersContainer />
+                  <FilesContainer file_path={file.file} file_type='image' key={index} />
                 )
               }
             })

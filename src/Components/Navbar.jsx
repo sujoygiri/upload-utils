@@ -11,7 +11,7 @@ const Navbar = () => {
                 <div className="navbar-logo">
                     <Link to="/">
                         <img src={require('../Assets/upload.png')} alt="logo" />
-                        <span className="site-name">ALLUpload</span>
+                        <span className="site-name">UploadUtil</span>
                     </Link>
                 </div>
                 <nav className="nav-menu">

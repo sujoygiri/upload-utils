@@ -1,14 +1,17 @@
 .home{
     display: flex;
+    height: calc(100vh - 60px);
+    width: 100vw;
 }
 
 .main-menu{
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 60px);
+    height: inherit;
     border-right: 1px solid black;
     align-items: center;
     background-color: rgb(51, 50, 50);
+    width: 150px;
 }
 
 .menu-item{
@@ -19,7 +22,6 @@
     cursor: pointer;
     transition: all 0.3s;
     margin: 10px;
-    width: 120px;
     height: 45px;
 }
 
@@ -33,4 +35,24 @@
 .highlight{
     background-color: rgb(42, 145, 145);
     border-radius: 10px;
+}
+
+.main-content{
+    display: flex;
+    flex-direction: column;
+    width: inherit;
+    overflow-x: hidden;
+    overflow-y: scroll !important;
+}
+
+/* .content{
+    flex-grow: 1;
+} */
+
+.uploading-button{
+    right: 5%;
+    bottom: 5%;
+    position: fixed;
+    z-index: 1;
+    margin-bottom: 5px;
 }

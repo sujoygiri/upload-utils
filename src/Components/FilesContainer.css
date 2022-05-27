@@ -1,0 +1,30 @@
+.all-files{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+.files{
+    display: flex;
+    width: auto;
+    align-items: center;
+    height: 50px;   
+    margin: 10px 20px;
+    border-radius: 10px;
+    border-bottom: 1px solid rgb(87, 0, 226);
+    box-shadow: 0px 0px 5px rgb(52, 52, 53);
+}
+
+.file-icon{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 10px;
+}
+
+.file-name{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 5px;
+}

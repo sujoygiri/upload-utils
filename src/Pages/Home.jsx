@@ -23,7 +23,7 @@ const Home = () => {
         return true;
       default: return false
     }
-    
+
   }
 
   function isImage(filename) {
@@ -37,7 +37,7 @@ const Home = () => {
       default: return false;
       //etc
     }
-    
+
   }
 
   function isAudio(filename) {
@@ -48,7 +48,7 @@ const Home = () => {
         return true;
       default: return false;
     }
-    
+
   }
 
   const fetchAllFiles = async () => {
@@ -103,18 +103,18 @@ const Home = () => {
             <p>Audio</p>
           </div>
           <div className={`menu-item ${innerText === 'Image' && className}`} onClick={highlightDiv}>
-            <img src={require('../Assets/image.png')} alt="image-play-button" height={25} width={25} />
+            <img src={require('../Assets/image.png')} alt="play-button" height={25} width={25} />
             <p>Image</p>
           </div>
           <div className={`menu-item ${innerText === 'Other' && className}`} onClick={highlightDiv}>
-            <img src={require('../Assets/neon.png')} alt="logo-neon" height={25} width={25} />
+            <img src={require('../Assets/other.png')} alt="logo-neon" height={25} width={25} />
             <p>Other</p>
           </div>
         </div>
         <div className="main-content">
-          <div className="all-files">
+          <div className="content">
             {files.map((file, index) => {
-              if(innerText === 'Other' && !isVideo(file.file) && !isImage(file.file) && !isAudio(file.file)) {
+              if (innerText === 'Other' && !isVideo(file.file) && !isImage(file.file) && !isAudio(file.file)) {
                 return (
                   <FilesContainer file_path={file.file} file_type='other' key={index} />
                 )
@@ -134,8 +134,17 @@ const Home = () => {
                   <FilesContainer file_path={file.file} file_type='image' key={index} />
                 )
               }
+              else {
+                return "";
+              }
             })
             }
+          </div>
+          <div className="uploading-button">
+            <button>
+              {/* <img src={require('../Assets/upload.png')} alt="upload-button" height={25} width={25} /> */}
+              <p>Upload</p>
+            </button>
           </div>
         </div>
       </div>

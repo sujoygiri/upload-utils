@@ -45,14 +45,24 @@
     overflow-y: scroll !important;
 }
 
-/* .content{
-    flex-grow: 1;
-} */
-
 .uploading-button{
     right: 5%;
     bottom: 5%;
     position: fixed;
     z-index: 1;
     margin-bottom: 5px;
+}
+
+.for-upload{
+    height: 100px;
+    border: 1px solid black;
+    width: 100px;
+}
+
+.modal-box{
+    height: calc(100vh - 60px);
+    width: 100vw;
+    position: absolute;
+    background-color: rgba(56, 55, 55, 0.8);
+    z-index: 999;
 }

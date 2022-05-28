@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import FilesContainer from '../Components/FilesContainer';
+import UploadModal from '../Components/UploadModal';
 import './Home.css'
 
 const Home = () => {
@@ -7,6 +8,8 @@ const Home = () => {
   const [files, setFiles] = useState([]);
   const [innerText, setInnerText] = useState('Video');
   const [className, setClassName] = useState('highlight');
+  const [selectedFile, setSelectedFile] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   function getExtension(filename) {
     const parts = filename.split('.');
@@ -66,6 +69,26 @@ const Home = () => {
     console.log(data);
   }
 
+  const changeHandler = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handelUpload = async (e) => {
+    e.preventDefault();
+    const url = "http://127.0.0.1:8000/api/files/upload"
+    let formData = new FormData();
+    formData.append('file', selectedFile);
+    let response = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+    let data = await response.json();
+    if (response.status === 200) {
+      // setFiles(data);
+    }
+    console.log(data);
+  }
+
   const highlightDiv = (e) => {
     let value = e.currentTarget.innerText;
     if (value === 'Video') {
@@ -90,9 +113,15 @@ const Home = () => {
     fetchAllFiles();
   }, [innerText])
 
+
+
   return (
     <>
       <div className="home">
+        {showModal && <div className="modal-box">
+          <UploadModal setShowModal={setShowModal} changeHandler={changeHandler} handelUpload={handelUpload}/>
+        </div>
+        }
         <div className="main-menu">
           <div className={`menu-item ${innerText === 'Video' && className}`} onClick={highlightDiv}>
             <img src={require('../Assets/video-play-button.png')} alt="video-play-button" height={25} width={25} />
@@ -141,9 +170,9 @@ const Home = () => {
             }
           </div>
           <div className="uploading-button">
-            <button>
+            <button onClick={() => setShowModal(true)}>
               {/* <img src={require('../Assets/upload.png')} alt="upload-button" height={25} width={25} /> */}
-              <p>Upload</p>
+              <p>Upload A File</p>
             </button>
           </div>
         </div>
